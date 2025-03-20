@@ -36,13 +36,14 @@ struct Game {
     @AppStorage("bestScore") var bestScore = 0
     
     var score = 0
+    var maxNumber = 1
     var grids = Array(repeating: Grid(value: 0), count: 25)
     var randomGrid = Grid(value: 1)
     var isEnd = false
     
     mutating func nextRandomGrid() {
         var grid = grids.randomElement()!
-        grid.value = [grid.value+1, grid.value+1, grid.value+1, grid.value+2].randomElement()!
+        grid.value = Int.random(in: 1...maxNumber)
         randomGrid = grid
     }
     
@@ -199,6 +200,9 @@ struct Game {
     
     mutating func updateScore(point: Int) {
         score += point
+        if point > maxNumber {
+            maxNumber = point
+        }
     }
     
     mutating func checkEnd() {
